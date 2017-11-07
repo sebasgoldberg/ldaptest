@@ -25,7 +25,7 @@ SECRET_KEY = '#_s#!op)f%&hqe8sr^7pl(%q1w*z7syhv=7r1i0*0i2a$qp-tt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.151.1.21', ]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -141,14 +141,14 @@ LDAP_AUTH_SEARCH_BASE = "dc=cencosud,dc=corp"
 # User model fields mapped to the LDAP
 # attributes that represent them.
 LDAP_AUTH_USER_FIELDS = {
-    "username": "mail",
+    "username": "sAMAccountName",
     "first_name": "displayName",
     #"last_name": "sn",
     "email": "mail",
 }
 
 # A tuple of django model fields used to uniquely identify a user.
-LDAP_AUTH_USER_LOOKUP_FIELDS = ("username",)
+LDAP_AUTH_USER_LOOKUP_FIELDS = ("sAMAccountName",)
 
 # Path to a callable that takes a dict of {model_field_name: value},
 # returning a dict of clean model data.
@@ -172,12 +172,12 @@ LDAP_AUTH_USER_LOOKUP_FIELDS = ("username",)
 #LDAP_AUTH_FORMAT_USERNAME = "django_python3_ldap.utils.format_username_openldap"
 
 # Sets the login domain for Active Directory users.
-LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = None
+LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = True
 
 # The LDAP username and password of a user for querying the LDAP database for user
 # details. If None, then the authenticated user will be used for querying, and
 # the `ldap_sync_users` command will perform an anonymous query.
-LDAP_AUTH_CONNECTION_USERNAME = '_lego@cencosud.corp'
+LDAP_AUTH_CONNECTION_USERNAME = '_lego'
 LDAP_AUTH_CONNECTION_PASSWORD = 'p0o9i8u7y6'
 
 # Set connection/receive timeouts (in seconds) on the underlying `ldap3` library.
