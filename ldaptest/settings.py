@@ -136,13 +136,13 @@ LDAP_AUTH_USE_TLS = False
 LDAP_AUTH_SEARCH_BASE = "dc=cencosud,dc=corp"
 
 # The LDAP class that represents a user.
-LDAP_AUTH_OBJECT_CLASS = "inetOrgPerson"   # @todo
+LDAP_AUTH_OBJECT_CLASS = "user"   # @todo
 
 # User model fields mapped to the LDAP
 # attributes that represent them.
 LDAP_AUTH_USER_FIELDS = {
-    #"username": "sAMAccountName",
-    "username": "uid",
+    "username": "sAMAccountName",
+    #"username": "uid",
     "first_name": "displayName",
     #"last_name": "sn",
     "email": "mail",
