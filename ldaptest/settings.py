@@ -126,7 +126,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # The URL of the LDAP server.
-LDAP_AUTH_URL = "ldap://g500603svdc1.cencosud.corp:389"
+LDAP_AUTH_URL = "ldap://g500603svdc2.cencosud.corp:389"
 
 # Initiate TLS on connection.
 LDAP_AUTH_USE_TLS = False
@@ -136,19 +136,20 @@ LDAP_AUTH_USE_TLS = False
 LDAP_AUTH_SEARCH_BASE = "dc=cencosud,dc=corp"
 
 # The LDAP class that represents a user.
-#LDAP_AUTH_OBJECT_CLASS = "inetOrgPerson"   # @todo
+LDAP_AUTH_OBJECT_CLASS = "inetOrgPerson"   # @todo
 
 # User model fields mapped to the LDAP
 # attributes that represent them.
 LDAP_AUTH_USER_FIELDS = {
-    "username": "sAMAccountName",
+    #"username": "sAMAccountName",
+    "username": "uid",
     "first_name": "displayName",
     #"last_name": "sn",
     "email": "mail",
 }
 
 # A tuple of django model fields used to uniquely identify a user.
-LDAP_AUTH_USER_LOOKUP_FIELDS = ("sAMAccountName",)
+LDAP_AUTH_USER_LOOKUP_FIELDS = ("username",)
 
 # Path to a callable that takes a dict of {model_field_name: value},
 # returning a dict of clean model data.
@@ -164,15 +165,19 @@ LDAP_AUTH_USER_LOOKUP_FIELDS = ("sAMAccountName",)
 # Path to a callable that takes a dict of {ldap_field_name: value},
 # returning a list of [ldap_search_filter]. The search filters will then be AND'd
 # together when creating the final search filter.
-#LDAP_AUTH_FORMAT_SEARCH_FILTERS = "django_python3_ldap.utils.format_search_filters"
+LDAP_AUTH_FORMAT_SEARCH_FILTERS = "django_python3_ldap.utils.format_search_filters"
 
 # Path to a callable that takes a dict of {model_field_name: value}, and returns
 # a string of the username to bind to the LDAP server.
 # Use this to support different types of LDAP server.
 #LDAP_AUTH_FORMAT_USERNAME = "django_python3_ldap.utils.format_username_openldap"
+#LDAP_AUTH_FORMAT_USERNAME = "django_python3_ldap.utils.format_username_active_directory"
+
+LDAP_AUTH_FORMAT_USERNAME = "django_python3_ldap.utils.format_username_active_directory_principal"
+LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = "cencosud.corp"
 
 # Sets the login domain for Active Directory users.
-LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = True
+#LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = 'ECDC'
 
 # The LDAP username and password of a user for querying the LDAP database for user
 # details. If None, then the authenticated user will be used for querying, and
@@ -183,3 +188,20 @@ LDAP_AUTH_CONNECTION_PASSWORD = 'p0o9i8u7y6'
 # Set connection/receive timeouts (in seconds) on the underlying `ldap3` library.
 LDAP_AUTH_CONNECT_TIMEOUT = None
 LDAP_AUTH_RECEIVE_TIMEOUT = None
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django_python3_ldap": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
+}
